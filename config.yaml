@@ -1,0 +1,54 @@
+# Web Scraper Configuration
+scraper:
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+  timeout: 10  # seconds
+  max_retries: 3
+  retry_delay: 2  # seconds
+  concurrent_requests: 5
+  respect_robots_txt: true
+  rate_limit_delay: 1  # seconds between requests to same domain
+
+# Supported sites configuration
+sites:
+  amazon:
+    enabled: true
+    base_url: "https://www.amazon.com"
+    selectors:
+      title: "#productTitle"
+      price: ".a-price-whole, .a-price .a-offscreen, #priceblock_ourprice"
+      image: "#landingImage, #imgBlkFront"
+      availability: "#availability span"
+    search_url: "https://www.amazon.com/s?k={query}"
+  
+  ebay:
+    enabled: true
+    base_url: "https://www.ebay.com"
+    selectors:
+      title: ".x-item-title__mainTitle, h1.it-ttl"
+      price: ".x-price-primary, .x-bin-price__content, #prcIsum"
+      image: ".ux-image-carousel-item img, #icImg"
+      availability: ".x-quantity__availability"
+    search_url: "https://www.ebay.com/sch/i.html?_nkw={query}"
+  
+  walmart:
+    enabled: true
+    base_url: "https://www.walmart.com"
+    selectors:
+      title: "h1[itemprop='name'], .prod-ProductTitle"
+      price: "[itemprop='price'], .price-characteristic"
+      image: ".hover-zoom-hero-image, [data-testid='hero-image-container'] img"
+      availability: ".prod-ProductOffer-oosMsg, [data-testid='fulfillment-badge']"
+    search_url: "https://www.walmart.com/search?q={query}"
+
+# Database/Storage settings (optional - for your app integration)
+storage:
+  enabled: false
+  type: "json"  # json, sqlite, postgres, etc.
+  path: "scraped_data"
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "scraper.log"
+  console: true
+
